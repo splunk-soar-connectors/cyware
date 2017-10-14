@@ -1,0 +1,75 @@
+{
+  "appid": "3c859a3a-310a-43a2-9925-aaf84bc6abbf",
+  "name": "Cyware",
+  "description": "Sharing of Cyber Events And Reporting an incident on Cyware Platform.",
+  "type": "Information",
+  "main_module": "cyware_connector.py",
+  "app_version": "1.0.0",
+  "min_phantom_version":"2.1.0",
+  "product_vendor": "Cyware Labs",
+  "product_name": "Cyware Situational Awareness Platform",
+  "product_version_regex": ".*",
+  "publisher": "Cyware Labs",
+  "package_name": "phantom-cyware",
+  "license": "Copyright (c) Cyware Corporation 2017-2018",
+  "logo":"logo.png",
+  "configuration": {
+    "token" : {
+      "description": "Authentication Token.",
+      "data_type": "string",
+      "required": true
+    },
+    "secret" : {
+      "description": "Authentication Secret Key.",
+      "data_type": "string",
+      "required": true
+    },
+    "server":{
+      "description":"Server IP/Hostname",
+      "data_type":"string",
+      "required":true
+    }
+  },
+  "actions": [
+    {
+      "action": "test connectivity",
+      "description": "Validate the asset configuration for connectivity.",
+      "type": "test",
+      "identifier": "test_asset_connectivity",
+      "read_only": true,
+      "parameters": {
+      },
+      "output": [],
+      "versions":"EQ(*)"
+    },
+    {
+      "action":"Report Incident",
+      "identifier":"incident_reporting",
+      "description":"Report cyber incidents on cyware to make people aware.",
+      "type":"generic",
+      "read_only":true,
+      "parameters":{
+        "title":{
+          "description": "Title of a incident.",
+            "data_type": "string",
+            "primary": true,
+            "required": true
+        },
+        "description":{
+          "description": "Description of a incident",
+            "data_type": "string",
+            "primary": true,
+            "required": true
+        },
+        "file":{
+          "description": "Vault IDs of file to attach.",
+            "data_type": "string",
+            "contains": ["vault id"],
+            "required": false
+        }
+      },
+      "output":[],
+      "versions":"EQ(*)"
+    }
+  ]
+}
