@@ -51,14 +51,12 @@
                 "title": {
                     "description": "Event title",
                     "data_type": "string",
-                    "primary": true,
                     "required": true,
                     "order": 0
                 },
                 "description": {
                     "description": "Event description",
                     "data_type": "string",
-                    "primary": true,
                     "required": true,
                     "order": 1
                 },
@@ -78,6 +76,7 @@
                         "sha1"
                     ],
                     "required": true,
+                    "primary": true,
                     "order": 2
                 }
             },
