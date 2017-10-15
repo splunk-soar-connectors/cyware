@@ -13,6 +13,7 @@ import datetime
 from cyware_consts import *
 from tenantapps import TenantAppsAuth
 
+
 def _json_fallback(obj):
     if isinstance(obj, datetime.datetime):
         return obj.isoformat()
@@ -21,8 +22,7 @@ def _json_fallback(obj):
 
 
 class CywareConnector(BaseConnector):
-    ACTION_ID_INCIDENT_REPORTING = "incident_reporting"
-
+    ACTION_ID_INCIDENT_REPORTING = "create_ticket"
 
     def __init__(self):
 
@@ -44,10 +44,10 @@ class CywareConnector(BaseConnector):
 
         # checking token and secret is there
         if not token or not secret:
-            self.save_progress("Token and Secret is not valid.")
+            self.save_progress("Token and/or Secret invalid.")
             return self.get_status()
 
-        self.save_progress("Checking connectivity with CYWARE.")
+        self.save_progress("Checking connectivity with Cyware.")
 
         try:
             connectivity = TenantAppsAuth(token, secret, server).test_connectivity()
@@ -59,7 +59,7 @@ class CywareConnector(BaseConnector):
         if connectivity["status"] == 200:
             return self.set_status_save_progress(phantom.APP_SUCCESS, CYWARE_SUCC_CONNECTIVITY_TEST)
         else:
-            return self.set_status_save_progress(phantom.APP_SUCCESS,"Token or Secret is Invalid." )
+            return self.set_status_save_progress(phantom.APP_SUCCESS, "Token or Secret is Invalid.")
 
     def _handle_report_incident(self, param):
         config = self.get_config()
@@ -76,9 +76,9 @@ class CywareConnector(BaseConnector):
 
         title = param["title"]
         description = param["description"]
-        file = base64.b64encode(open(Vault.get_file_path(param["file"])).read())
+        file = base64.b64encode(open(Vault.get_file_path(param["vault_id"])).read())
 
-        attachment = Vault.get_file_info(vault_id=param["file"], file_name=None, container_id=None)[0]
+        attachment = Vault.get_file_info(vault_id=param["vault_id"], file_name=None, container_id=None)[0]
 
         object = TenantAppsAuth(access_id=token, secret_key=secret, server=server)
 
@@ -86,16 +86,19 @@ class CywareConnector(BaseConnector):
             "title": title,
             "description": description,
             "attachments": [{
-                "file":file,
-                "file_name":attachment["name"],
-                "type":"base64"
+                "file": file,
+                "file_name": attachment["name"],
+                "type": "base64"
             }]
         }
+        action_result.update_summary({"message": "Unable to report event to Cyware."})
         try:
-            object.report_incident(data=data)
-            action_result.set_status(phantom.APP_SUCCESS, "Incident is report to Cyware.")
+            response = object.report_incident(data=data)
+            action_result.add_data(response)
+            action_result.update_summary({"message": "Event reported successfully."})
+            action_result.set_status(phantom.APP_SUCCESS)
         except Exception as e:
-            action_result.set_status(phantom.APP_ERROR, "Unable to report incident to Cyware Due to ",e)
+            action_result.set_status(phantom.APP_ERROR, "Unable to report event to Cyware. Error: ", e)
         return action_result.get_status()
 
     def handle_action(self, param):
@@ -120,7 +123,7 @@ if __name__ == '__main__':
 
     pudb.set_trace()
 
-    if (len(sys.argv) < 2):
+    if len(sys.argv) < 2:
         print "No test json specified as input"
         exit(0)
 
@@ -131,7 +134,7 @@ if __name__ == '__main__':
 
         connector = CywareConnector()
         connector.print_progress_message = True
-        ret_val = connector.handle_action(json.dumps(in_json), None)
+        ret_val = connector.handle_action(json.dumps(in_json))
         print(json.dumps(json.loads(ret_val), indent=4))
 
     exit(0)
