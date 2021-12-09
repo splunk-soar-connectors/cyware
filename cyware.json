@@ -203,5 +203,37 @@
             }
         }
     ],
-    "utctime_updated": "2017-11-30T22:45:21.000000Z"
+    "utctime_updated": "2017-11-30T22:45:21.000000Z",
+    "pip_dependencies": {
+        "wheel": [
+            {
+                "module": "argparse",
+                "input_file": "wheels/argparse-1.4.0-py2.py3-none-any.whl"
+            },
+            {
+                "module": "certifi",
+                "input_file": "wheels/certifi-2021.10.8-py2.py3-none-any.whl"
+            },
+            {
+                "module": "chardet",
+                "input_file": "wheels/chardet-3.0.4-py2.py3-none-any.whl"
+            },
+            {
+                "module": "idna",
+                "input_file": "wheels/idna-2.10-py2.py3-none-any.whl"
+            },
+            {
+                "module": "pythonwhois",
+                "input_file": "wheels/pythonwhois-2.4.3-py2-none-any.whl"
+            },
+            {
+                "module": "requests",
+                "input_file": "wheels/requests-2.25.0-py2.py3-none-any.whl"
+            },
+            {
+                "module": "urllib3",
+                "input_file": "wheels/urllib3-1.26.7-py2.py3-none-any.whl"
+            }
+        ]
+    }
 }
