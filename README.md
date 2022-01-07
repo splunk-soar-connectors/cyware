@@ -10,10 +10,6 @@ Minimum Product Version: 3\.0\.251
 
 Implements event reporting on the Cyware platform
 
-# cyware
-Cyware Community App by Cyware
-
-
 ### Configuration Variables
 The below configuration variables are required for this Connector to operate.  These variables are specified when configuring a Cyware Situational Awareness Platform asset in SOAR.
 
