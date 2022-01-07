@@ -4,7 +4,7 @@
     "description": "Implements event reporting on the Cyware platform",
     "type": "Information",
     "main_module": "cyware_connector.py",
-    "app_version": "1.0.3",
+    "app_version": "1.0.4",
     "min_phantom_version": "3.0.251",
     "product_vendor": "Cyware Labs",
     "product_name": "Cyware Situational Awareness Platform",
@@ -203,7 +203,7 @@
             }
         }
     ],
-    "utctime_updated": "2017-11-30T22:45:21.000000Z",
+    "utctime_updated": "2022-01-07T22:34:01.000000Z",
     "pip_dependencies": {
         "wheel": [
             {
